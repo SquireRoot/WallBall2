@@ -10,7 +10,8 @@ public class WallCreator : MonoBehaviour {
 	float mouseY;
 	float deltaX;
 	float deltaY;
-	
+	bool isClicked = false;
+
 	float magnitudeThreshold = 0.1f; // length of line before a new line is created
 	
 	// Use this for initialization
@@ -21,22 +22,34 @@ public class WallCreator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// get initial point when the mouse button is clicked
+
+
 		if (Input.GetMouseButtonDown (0)) {
 			lastPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			isClicked = true;
 			//Debug.Log("Mouse Clicked at x: " + lastPoint.x + " y: " + lastPoint.y);
 		}
 		
 		// finds the distance between the current mouse position and the prevous saved point to see if it should save a new point
 
-		if (Input.GetMouseButton(0)) {
+		if ((!Input.GetMouseButton(0))&& isClicked) {
 			mouseX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
 			mouseY = Camera.main.ScreenToWorldPoint(Input.mousePosition).y;
+
+			pointSets = (lastPoint.x , lastPoint.y , mouseX, mouseY);
+
 			deltaX = mouseX - lastPoint.x;
 			deltaY = mouseY - lastPoint.y;
 			magnitude = Mathf.Sqrt((deltaX)*(deltaX) + (deltaY)*(deltaY));
-			//Debug.Log(magnitude);
 
-			if (magnitude > magnitudeThreshold) {
+
+
+			//Debug.Log(magnitude);
+			
+		
+		
+		}
+		/*	if (magnitude > magnitudeThreshold) {
 				pointSets.Add(new Vector4(lastPoint.x, lastPoint.y, mouseX, mouseY));
 
 				// instantiate a new line thing
@@ -44,7 +57,7 @@ public class WallCreator : MonoBehaviour {
 				newLine.transform.localScale = new Vector3(magnitude*10,1,1); // multiplied by 10 because the image is 0.1 units wide
 				newLine.GetComponent<SpriteRenderer>().enabled = true;
 				lastPoint = new Vector3(mouseX, mouseY);
-			}
+			}*/
 		}
 	}
 }
