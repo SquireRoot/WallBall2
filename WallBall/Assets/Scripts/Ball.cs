@@ -34,25 +34,14 @@ public class Ball : MonoBehaviour {
 		//physics stuff, if it hits a wall or anything
 		//get an array of all the line game objects
 		lines = WallCreator.pointSets;
-
-		//get the points for all of them and then eliminate them if their points do not lie within the colision radius of (x-x1)^2+(y-y1)^2=r^2
-		foreach (Vector4 ln in lines) {
-			if ((ln.x*ln.x + ln.y*ln.y) < ((colisionRadius)*(colisionRadius)) && (ln.z*ln.z + ln.w*ln.w) < ((colisionRadius)*(colisionRadius))) {
-				remove.Add(ln);
-			}
-		}
-
-		foreach (Vector4 ln in remove) {
-			lines.Remove(ln);
-		}
 			
 		foreach (Vector4 ln in lines) { 
 			// gets normal vector to the line created by ln
-			if (transform.position.y < ((ln.z - ln.x)/(ln.w-ln.y))*(transform.position.x - ln.x) + ln.y) {
-				normal = (new Vector2(-(ln.w - ln.y), (ln.z - ln.x))).normalized; //normal vector to the line
-			} else {
+			//if (transform.position.y < ((ln.z - ln.x)/(ln.w-ln.y))*(transform.position.x - ln.x) + ln.y) {
+			//	normal = (new Vector2(-(ln.w - ln.y), (ln.z - ln.x))).normalized; //normal vector to the line
+			//} else {
 				normal = (new Vector2((ln.w - ln.y), -(ln.z - ln.x))).normalized;
-			}
+			//}
 
 			//calcululates the shortest vector between the center of the ball and the line created by ln
 			projection = ((ln.x - transform.position.x)*(normal.x) + (ln.y - transform.position.y)*(normal.y))*normal;
@@ -64,41 +53,24 @@ public class Ball : MonoBehaviour {
 			magnitude2 = Mathf.Sqrt((ln.z - transform.position.x)*(ln.z - transform.position.x) + (ln.w - transform.position.y)*(ln.w - transform.position.y));
 
 			// line colision stuff
-			if (ln.z < ln.x && distance <= radius) { 
+			if (ln.z < ln.x && distance <= radius) { // line checking
 				xPointOnLine = transform.position.x + projection.x;
 				if (!colisionRegistered && (xPointOnLine <= ln.x && xPointOnLine >= ln.z)) {
 					lineRebound(normal);
 					colisionRegistered = true;
 				}
-			} else if (ln.z >= ln.x && distance <= radius) {
+			} else if (ln.z >= ln.x && distance <= radius) { // line checking
 				xPointOnLine = transform.position.x + projection.x;
 				if (!colisionRegistered && (xPointOnLine >= ln.x && xPointOnLine <= ln.z)) {
 					lineRebound(normal);
 					colisionRegistered = true;
 				}
-			} else if (ln.w < ln.y && distance <= radius) {
-				yPointOnLine = transform.position.y + projection.y;
-				if (!colisionRegistered && (yPointOnLine >= ln.w && xPointOnLine <= ln.y)) {
-					lineRebound(normal);
-					colisionRegistered = true;
-				}
-			} else if (ln.w >= ln.y && distance <= radius) {
-				yPointOnLine = transform.position.y + projection.y;
-				if (!colisionRegistered && (yPointOnLine <= ln.w && xPointOnLine >= ln.y)) {
-					lineRebound(normal);
-					colisionRegistered = true;
-				}
-			} else {
-				colisionRegistered = false;
-			}
-
-			// points of the line colision stuff
-			if (magnitude1 <= radius) {
+			} else if (magnitude1 <= radius) { // point 1 checking
 				if (!colisionRegistered) {
 					pointRebound(new Vector2(ln.x, ln.y));
 					colisionRegistered = true;
 				}
-			} else if (magnitude2 <= radius) {
+			} else if (magnitude2 <= radius) { // point 2 checking
 				if (!colisionRegistered) {
 					pointRebound(new Vector2(ln.z, ln.w));
 					colisionRegistered = true;
