@@ -6,7 +6,7 @@ public class Ball : MonoBehaviour {
 	float radius;
 	//const float threshold = 0.3f;
 	ArrayList lines = new ArrayList();
-	ArrayList remove = new ArrayList();
+	ArrayList checkpoints = new ArrayList();
 
 	Vector2 projection;
 	Vector2 normal;
@@ -15,6 +15,7 @@ public class Ball : MonoBehaviour {
 	float distance; // distance from ball to line
 	float magnitude1; // distance from ball to point 1
 	float magnitude2; // distance from ball to point 2
+	float magnitude; // distance between the ball and a checkpoint
 
 	bool shouldStart = false;
 
@@ -34,6 +35,7 @@ public class Ball : MonoBehaviour {
 		//physics stuff, if it hits a wall or anything
 		//get an array of all the line game objects
 		lines = WallCreator.pointSets;
+		this.checkpoints = Checkpoint.checkpoints;
 			
 		foreach (Vector4 ln in lines) { 
 			// gets normal vector to the line created by ln
@@ -77,6 +79,14 @@ public class Ball : MonoBehaviour {
 				}
 			} else {
 				colisionRegistered = false;
+			}
+		}
+
+		foreach (GameObject chk in checkpoints) {
+			magnitude = Mathf.Sqrt((chk.transform.position.x-transform.position.x)*(chk.transform.position.x-transform.position.x)+(chk.transform.position.y-transform.position.y)*(chk.transform.position.y-transform.position.y));
+
+			if (magnitude < radius+50) {
+				//Destroy(chk);
 			}
 		}
 	}
