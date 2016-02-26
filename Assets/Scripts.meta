@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Scripts.meta
 <<<<<<< HEAD
 guid: a547ec45e9fa04469b1685c2ea6ac798
 folderAsset: yes
@@ -8,6 +9,11 @@ guid: a671e6e2c2d1d4a57b2e4e6bbdfe4a0d
 folderAsset: yes
 timeCreated: 1456382923
 >>>>>>> 4e29dc4340d2faae11df646334031d44fde1604c
+=======
+guid: a671e6e2c2d1d4a57b2e4e6bbdfe4a0d
+folderAsset: yes
+timeCreated: 1456459879
+>>>>>>> more fixing rebase:Assets/Scripts.meta
 licenseType: Free
 DefaultImporter:
   userData: 
